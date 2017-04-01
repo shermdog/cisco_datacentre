@@ -83,7 +83,7 @@ describe 'cisco_datacentre::snmp', :type => :class do
         is_expected.to contain_cisco_snmp_community('testrw').with({
           :ensure    => 'present',
           :community => 'testrw',
-          :group     => 'network-operator',
+          :group     => 'network-admin',
           :acl       => 'testrwacl'
         }).that_requires('Cisco_acl[ipv4 testrwacl]')
       end

@@ -16,25 +16,25 @@ describe 'cisco_datacentre::ntp', :type => :class do
          :ntpservers => ['10.1.1.1', '10.2.2.2']
       }}
       it 'create the ntp acl' do
-        is_expected.to contain_cisco_acl('ipv4 CANWSNTP18').with({
+        is_expected.to contain_cisco_acl('ipv4 NTP_ACL').with({
           :ensure => 'present'
         })
       end
       it 'add valid ntp acl entries' do
-        is_expected.to contain_cisco_ace('ipv4 CANWSNTP18 10').with({
+        is_expected.to contain_cisco_ace('ipv4 NTP_ACL 10').with({
           :ensure   => 'present',
           :action   => 'permit',
           :proto    => 'ip',
           :src_addr => "10.1.1.1/32",
           :dst_addr => 'any'
-        }).that_requires('Cisco_acl[ipv4 CANWSNTP18]')
-        is_expected.to contain_cisco_ace('ipv4 CANWSNTP18 20').with({
+        }).that_requires('Cisco_acl[ipv4 NTP_ACL]')
+        is_expected.to contain_cisco_ace('ipv4 NTP_ACL 20').with({
           :ensure   => 'present',
           :action   => 'permit',
           :proto    => 'ip',
           :src_addr => "10.2.2.2/32",
           :dst_addr => 'any'
-        }).that_requires('Cisco_acl[ipv4 CANWSNTP18]')
+        }).that_requires('Cisco_acl[ipv4 NTP_ACL]')
       end
       it 'enable ntp server via cli' do
         is_expected.to contain_cisco_command_config('ntp-server-0').with({
@@ -46,7 +46,7 @@ describe 'cisco_datacentre::ntp', :type => :class do
       end
       it 'applies the acl via cli' do
         is_expected.to contain_cisco_command_config('ntp-server-acl').with({
-          :command => "ntp access-group peer CANWSNTP18"
+          :command => "ntp access-group peer NTP_ACL"
         })
       end
     end
@@ -57,10 +57,10 @@ describe 'cisco_datacentre::ntp', :type => :class do
       }}
       it do
         expect {
-          is_expected.to contain_cisco_acl('ipv4 CANWSNTP18').with({
+          is_expected.to contain_cisco_acl('ipv4 NTP_ACL').with({
             :ensure => 'present'
           })
-          is_expected.to contain_cisco_ace('ipv4 CANWSNTP18 10').with({
+          is_expected.to contain_cisco_ace('ipv4 NTP_ACL 10').with({
             :ensure   => 'present',
             :action   => 'permit',
             :proto    => 'ip',
