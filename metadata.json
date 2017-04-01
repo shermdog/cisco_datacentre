@@ -1,0 +1,15 @@
+{
+  "name": "tomcooperca-cisco_datacentre",
+  "version": "0.1.0",
+  "author": "rbc",
+  "summary": "Implementation module of Cisco datacentre switches",
+  "license": "Apache-2.0",
+  "source": "https://github.com/tomcooperca/cisco_datacentre",
+  "project_page": "https://github.com/tomcooperca/cisco_datacentre",
+  "issues_url": "https://github.com/tomcooperca/cisco_datacentre/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.12"},
+    {"name":"puppetlabs-ciscopuppet","version_requirement":">= 1.6.0"}
+  ],
+  "data_provider": null
+}
