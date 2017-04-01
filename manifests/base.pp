@@ -30,7 +30,7 @@ class cisco_datacentre::base (
   else {
     include ciscopuppet::install
   }
-  
+
   file_line { 'add_vrf_to_puppet.service' :
       path   => '/usr/lib/systemd/system/puppet.service',
       line   => "ExecStart=/bin/nsenter --net=/var/run/netns/${vrf} -- /opt/puppetlabs/puppet/bin/puppet agent \$PUPPET_EXTRA_OPTS --no-daemonize",
@@ -64,7 +64,7 @@ class cisco_datacentre::base (
       require => File_line['add_vrf_to_pxp-agent.service'],
       notify  => Service['pxp-agent'],
   }
-  exec { "trigger_systemd_daemon-reload" :
+  exec { 'trigger_systemd_daemon-reload' :
     command     => '/bin/systemctl daemon-reload',
     refreshonly => true,
   }
