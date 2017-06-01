@@ -7,7 +7,9 @@ describe 'cisco_datacentre::evpn::leafglobal', :type => :class do
       :operatingsystem => 'nexus'
     }}
 
+    it { is_expected.to compile }
     it { is_expected.to contain_class('cisco_datacentre::evpn::leafglobal') }
+    it { is_expected.to have_resource_count(3) }
 
     context 'includes settings for' do
       it 'bfd' do

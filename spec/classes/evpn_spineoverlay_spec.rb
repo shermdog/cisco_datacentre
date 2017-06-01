@@ -14,7 +14,10 @@ describe 'cisco_datacentre::evpn::spineoverlay', :type => :class do
         '10.2.2.2' => 'leaf2'
       }
     }}
+
+    it { is_expected.to compile }
     it { is_expected.to contain_class('cisco_datacentre::evpn::spineoverlay') }
+    it { is_expected.to have_resource_count(5) }
 
     context 'includes settings for' do
       it 'process-level bgp' do
