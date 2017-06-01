@@ -1,0 +1,3 @@
+<%- | String $username | -%>
+default:
+  cookie: '<%= $username %>:local'

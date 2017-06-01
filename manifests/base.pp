@@ -1,9 +1,9 @@
 # Base class for setting up the Guestshell environment
 class cisco_datacentre::base (
-  String $gempath                        = '/root',
   Variant[String,Boolean] $install_repo  = false,
   Variant[String,Boolean] $install_proxy = false,
   String $vrf                            = 'management',
+  String $gemuser = 'admin',
 ) {
   # Root user password not initially set, which upsets PAM & screws up cron
   user { 'root' :
@@ -29,6 +29,14 @@ class cisco_datacentre::base (
   }
   else {
     include ciscopuppet::install
+  }
+
+  file { '/etc/cisco_node_utils.yaml' :
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => epp('cisco_datacentre/cisco_node_utils.yaml.epp', { 'username' => $gemuser}),
   }
 
   file_line { 'add_vrf_to_puppet.service' :

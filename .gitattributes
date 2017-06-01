@@ -1,0 +1,13 @@
+# Set the default line ending behavior to LF for Puppet files
+*.pp text eol=lf
+*.rb text eol=lf
+*.erb text eol=lf
+*.epp text eol=lf
+metadata.json text eol=lf
+.rspec text eol=lf
+.fixtures.yml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Default EOL to LF for Markdown
+*.md
