@@ -15,17 +15,17 @@ describe 'cisco_datacentre::syslog', :type => :class do
     context 'configure each syslog server' do
       it 'first configuration' do
         is_expected.to contain_cisco_command_config('syslog_10.1.1.1').with({
-          :command => 'logging server 10.1.1.1 use-vrf management'
+          :command => 'logging server 10.1.1.1 6 use-vrf management'
         })
       end
       it 'second configuration' do
         is_expected.to contain_cisco_command_config('syslog_10.2.2.2').with({
-          :command => 'logging server 10.2.2.2 use-vrf management'
+          :command => 'logging server 10.2.2.2 6 use-vrf management'
         })
       end
       it 'third configuration' do
         is_expected.to contain_cisco_command_config('syslog_10.3.3.3').with({
-          :command => 'logging server 10.3.3.3 use-vrf management'
+          :command => 'logging server 10.3.3.3 6 use-vrf management'
         })
       end
     end
@@ -36,7 +36,7 @@ describe 'cisco_datacentre::syslog', :type => :class do
       }}
       it 'command' do
         is_expected.to contain_cisco_command_config('syslog_10.1.1.1').with({
-          :command => 'logging server 10.1.1.1 use-vrf testvrf1'
+          :command => 'logging server 10.1.1.1 6 use-vrf testvrf1'
         })
       end
     end
