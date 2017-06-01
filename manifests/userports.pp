@@ -16,8 +16,7 @@ class cisco_datacentre::userports (
     }
     else {
       $interface_hash = $user_interfaces[$interface_name]
-      $interface_keys = $interface_hash.keys
-      if 'access_vlan' in $interface_keys {
+      if has_key($user_interfaces[$interface_name], 'access_vlan') {
         $int_description = $interface_hash['description']
         $int_access_vlan = $interface_hash['access_vlan']
         cisco_interface { $interface_name:
@@ -30,7 +29,7 @@ class cisco_datacentre::userports (
           access_vlan     => $int_access_vlan,
         }
       }
-      elsif 'vpc_id' in $interface_keys {
+      elsif has_key($user_interfaces[$interface_name], 'vpc_id') {
         $int_description = $interface_hash['description']
         $int_allowed_vlans = $interface_hash['allowed_vlans']
         $int_vpc_id = $interface_hash['vpc_id']
@@ -62,7 +61,7 @@ class cisco_datacentre::userports (
           require            => Cisco_interface["port-channel${int_vpc_id}"],
         }
       }
-      elsif 'allowed_vlans' in $interface_keys {
+      elsif has_key($user_interfaces[$interface_name], 'allowed_vlans') {
         $int_description = $interface_hash['description']
         $int_allowed_vlans = $interface_hash['allowed_vlans']
         cisco_interface { $interface_name:

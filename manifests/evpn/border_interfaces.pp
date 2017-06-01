@@ -1,3 +1,5 @@
+# BL-to-external interfaces (typically BL-to-CORE)
+# Assumes an underlay & overlay subinterface is required for each ptp
 class cisco_datacentre::evpn::border_interfaces (
   Hash $core_interfaces,
   String $ospf_area,

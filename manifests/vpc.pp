@@ -56,10 +56,11 @@ class cisco_datacentre::vpc (
       shutdown                => false,
     }
     cisco_interface_channel_group { $interface :
-      ensure              => present,
-      interface           => $interface,
-      channel_group       => $peerlink_po_id,
-      require             => Cisco_interface["port-channel${peerlink_po_id}"],
+      ensure             => present,
+      interface          => $interface,
+      channel_group      => $peerlink_po_id,
+      channel_group_mode => 'active',
+      require            => Cisco_interface["port-channel${peerlink_po_id}"],
     }
   }
 }

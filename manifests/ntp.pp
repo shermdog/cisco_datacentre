@@ -15,7 +15,7 @@ class cisco_datacentre::ntp (
     cisco_ace { "ipv4 ${ntp_acl_name} ${acl_seqnum}" :
       ensure   => present,
       action   => 'permit',
-      proto  => 'ip',
+      proto    => 'ip',
       src_addr => "${ntp_ip}/32",
       dst_addr => 'any',
       require  => Cisco_acl["ipv4 ${ntp_acl_name}"],

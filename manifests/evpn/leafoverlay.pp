@@ -5,36 +5,10 @@ class cisco_datacentre::evpn::leafoverlay (
   String $vxlan_vrf,
   Hash $spine_bgp_peers,
   String $loopback0_ip,
-  String $loopback1_ip,
-  String $loopback1_vtepip  = '',
-  String $bgp_password      = '3GP@ssw0rd', # eYAML here
+  String $bgp_password      = '3GP@ssw0rd',
   Integer $l3vni_vlan_id    = 10,
 ) {
-  if $loopback1_vtepip == '' {
-    # no secondary addresses for borderleaf VTEP
-    cisco_interface { 'loopback1' :
-      ensure                        => present,
-      interface                     => 'loopback1',
-      shutdown                      => false,
-      description                   => 'VTEP source interface',
-      ipv4_address                  => $loopback1_ip,
-      ipv4_netmask_length           => 32,
-      ipv4_pim_sparse_mode          => true,
-    }
-  }
-  else {
-    cisco_interface { 'loopback1' :
-      ensure                        => present,
-      interface                     => 'loopback1',
-      shutdown                      => false,
-      description                   => 'VTEP source interface',
-      ipv4_address                  => $loopback1_ip,
-      ipv4_netmask_length           => 32,
-      ipv4_address_secondary        => $loopback1_vtepip,
-      ipv4_netmask_length_secondary => 32,
-      ipv4_pim_sparse_mode          => true,
-    }
-  }
+
   $l3vni_vni_id = create_vni($vxlan_vni_prefix, $l3vni_vlan_id)
   cisco_vlan { "${l3vni_vlan_id}":
     ensure     => present,
@@ -77,7 +51,7 @@ class cisco_datacentre::evpn::leafoverlay (
     require   => Cisco_vlan["${l3vni_vlan_id}"],
   }
 
-  cisco_command_config { "associate_l3vni_fix" :
+  cisco_command_config { 'associate_l3vni_fix' :
     command => "vrf context ${vxlan_vrf}\n  vni ${l3vni_vni_id}",
   }
 

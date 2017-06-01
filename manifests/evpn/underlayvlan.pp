@@ -11,6 +11,14 @@ define cisco_datacentre::evpn::underlayvlan (
   Variant[Boolean,Array] $dhcp_servers = false,
 ) {
 
+  if $hsrp_primary {
+    $hsrp_priority = 200
+    # $pim_dr_priority = 100 <--- This property hasn't been implemented yet
+  }
+  else {
+    $hsrp_priority = 100
+  }
+
   cisco_vlan { "${vlan_id}" :
     ensure    => present,
     vlan_name => $vlan_name,
@@ -28,6 +36,7 @@ define cisco_datacentre::evpn::underlayvlan (
       ipv4_redirects       => false,
       ipv4_arp_timeout     => 300,
       ipv4_pim_sparse_mode => true,
+      pim_bfd              => true,
       ipv4_dhcp_relay_addr => $dhcp_servers,
     }
   }
@@ -42,22 +51,18 @@ define cisco_datacentre::evpn::underlayvlan (
       ipv4_redirects       => false,
       ipv4_arp_timeout     => 300,
       ipv4_pim_sparse_mode => true,
+      pim_bfd              => true,
     }
   }
 
   cisco_interface_ospf { "Vlan${vlan_id} ${ospf_process_name}" :
     ensure            => present,
     interface         => "Vlan${vlan_id}",
+    bfd               => true,
     ospf              => $ospf_process_name,
     area              => $ospf_area_id,
     cost              => 90,
     passive_interface => true,
-  }
-  if $hsrp_primary {
-    $hsrp_priority = 200
-  }
-  else {
-    $hsrp_priority = 100
   }
   cisco_interface_hsrp_group { "vlan${vlan_id} ${hsrp_group_id} ipv4" :
     ensure      => present,

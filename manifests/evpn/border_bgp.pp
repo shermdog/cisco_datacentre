@@ -5,7 +5,7 @@ class cisco_datacentre::evpn::border_bgp (
   String $vxlan_vrf,
   Hash $external_bgp_neighbors,
   Array $advertised_networks,
-  String $bgp_password         = '3GP@ssw0rd', 
+  String $bgp_password         = '3GP@ssw0rd',
 ) {
 
   cisco_bgp { "${bgp_asn} ${vxlan_vrf}" :
@@ -45,7 +45,7 @@ class cisco_datacentre::evpn::border_bgp (
     }
   }
   $cisco_formatted_networks = evpn_bgp_network_array($advertised_networks)
-  cisco_bgp_af { "border_network_advertisements" :
+  cisco_bgp_af { 'border_network_advertisements' :
     ensure               => present,
     asn                  => $bgp_asn,
     vrf                  => $vxlan_vrf,
